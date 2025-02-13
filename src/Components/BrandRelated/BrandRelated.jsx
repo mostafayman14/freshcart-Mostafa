@@ -3,11 +3,11 @@ import style from './BrandRelated.module.css'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import SearchProductsByBrand from '../SearchProductsByBrand/SearchProductsByBrand';
+import Heading from '../ui/Heading';
 
 
 export default function BrandRelated() {
   let { id } = useParams();
-  console.log(id);
 
   const [product, setProduct] = useState(null);
   const [getData, setgetData] = useState([]);
@@ -39,11 +39,7 @@ export default function BrandRelated() {
       let { data } = await axios.get(`https://ecommerce.routemisr.com/api/v1/brands/${id}`);
       setProduct(data.data);
       setLoading(false);
-      console.log(product);
-      console.log(product);
-      console.log(product);
-
-
+     
     } catch (error) {
       console.log(error);
 
@@ -58,11 +54,11 @@ export default function BrandRelated() {
 
 
   return <>
-    <h2>BrandRelated</h2>
+        <Heading titlePage={`Products for ${product?.name}`} />
     {loading ?
       <i class="fa-solid fa-spinner fa-spin text-2xl flex justify-center items-center "></i>
       :
-      <div className="w-full flex flex-wrap gap-y-4 justify-center overflow-hidden">
+      <div className="w-full flex flex-wrap gap-y-4 justify-center overflow-hidden py-6">
         {SearchProductsByBrand(getData, product.name)}
       </div>
 }
