@@ -11,7 +11,7 @@ import Login from './Components/Login/Login.jsx'
 import Register from './Components/Register/Register.jsx'
 import NotFound from './Components/NotFound/NotFound.jsx'
 import UserContextProvider, { userContext } from './context/UserContext.jsx'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute.jsx'
 import Productdetails from './Components/Productdetails/Productdetails.jsx'
 import BrandRelated from './Components/BrandRelated/BrandRelated.jsx'
@@ -24,6 +24,8 @@ import { Toaster } from 'react-hot-toast'
 import CheckOut from './Components/CheckOut/CheckOut.jsx'
 import AllOrders from './Components/AllOrders/AllOrders.jsx'
 import TryingArea from './Components/TryingArea/TryingArea.jsx'
+import WishlistContextProvider, { WishlistContext } from './context/WishListContext.jsx'
+import Wishlist from './Components/Wishlist/Wishlist.jsx'
 
 
 
@@ -39,9 +41,10 @@ let routers = createBrowserRouter([{
     { path: 'categories/:id', element: <ProtectedRoute> <ProductsInSpecificCategories /> </ProtectedRoute> },
     { path: 'products', element: <ProtectedRoute> <Products /> </ProtectedRoute> },
     { path: 'productdetails/:id', element: <ProtectedRoute> <Productdetails /> </ProtectedRoute> },
-    { path: 'checkout', element: <ProtectedRoute> <CheckOut/> </ProtectedRoute> },
-    { path: 'allorders', element: <ProtectedRoute> <AllOrders/> </ProtectedRoute> },
-    { path: 'trying', element: <ProtectedRoute> <TryingArea/> </ProtectedRoute> },
+    { path: 'checkout', element: <ProtectedRoute> <CheckOut /> </ProtectedRoute> },
+    { path: 'allorders', element: <ProtectedRoute> <AllOrders /> </ProtectedRoute> },
+    { path: 'wishlist', element: <ProtectedRoute> <Wishlist /> </ProtectedRoute> },
+    { path: 'trying', element: <ProtectedRoute> <TryingArea /> </ProtectedRoute> },
     { path: '*', element: <NotFound /> },
   ]
 }])
@@ -50,12 +53,14 @@ function App() {
   return <>
 
     <Provider store={store} >
-      <CartContextProvider>
-        <UserContextProvider>
-          <RouterProvider router={routers}></RouterProvider>
-          <Toaster/>
-        </UserContextProvider>
-      </CartContextProvider>
+      <WishlistContextProvider>
+        <CartContextProvider>
+          <UserContextProvider>
+            <RouterProvider router={routers}></RouterProvider>
+            <Toaster />
+          </UserContextProvider>
+        </CartContextProvider>
+      </WishlistContextProvider>
     </Provider >
   </>
 }

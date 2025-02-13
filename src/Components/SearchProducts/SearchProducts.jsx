@@ -2,9 +2,12 @@ import React, { useContext } from 'react'
 import style from './SearchProducts.module.css'
 import { Link } from 'react-router-dom'
 import { CartContext } from '../../context/CartContext'
+import { WishlistContext } from '../../context/WishListContext'
 
-export default function SearchProducts(getData , searctitle ) {
-  let {AddToCart} = useContext(CartContext)
+export default function SearchProducts(getData, searctitle) {
+  let { AddToCart } = useContext(CartContext)
+  let { AddToWishlist, wishlist, DeleteProductFromWishlist } = useContext(WishlistContext);
+
 
   return (getData
     .filter((prod) => prod.category.name.includes(searctitle))
@@ -24,16 +27,25 @@ export default function SearchProducts(getData , searctitle ) {
               </div>
             </div>
           </Link>
-          <button onClick={()=>{AddToCart(item.id)}} className="btn w-full">Add to cart</button>
+          <div className="flex">
+            <button onClick={() => { AddToCart(item.id) }} className="btn w-full">Add to cart</button>
+            {
+              wishlist?.data.join('').includes(item.id) ?
+                <i onClick={() => DeleteProductFromWishlist(item.id)} className={`fa-solid fa-heart  flex items-center text-red-600 hover:cursor-pointer`}></i>
+                :
+                <i onClick={() => AddToWishlist(item.id)} className={`fa-regular fa-heart  flex items-center hover:cursor-pointer`}></i>
+
+            }
+          </div>
         </div>
       </div>
     )))
 
   // console.log(getData);
   // console.log(categoryTitle);
-  
 
-  }
+
+}
 
 
 

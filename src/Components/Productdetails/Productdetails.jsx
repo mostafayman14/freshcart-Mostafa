@@ -9,6 +9,7 @@ import Products from '../Products/Products';
 import ProductsRelatedByCategory from '../categoryRelated/ProductsRelatedByCategory';
 import { CartContext } from '../../context/CartContext';
 import Loading from '../ui/Loading';
+import { WishlistContext } from '../../context/WishListContext';
 
 export default function Productdetails() {
   var settings = {
@@ -27,8 +28,9 @@ export default function Productdetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  let {AddToCart} = useContext(CartContext);
+  let { AddToCart } = useContext(CartContext);
 
+  let { AddToWishlist, redHeart, wishlist, DeleteProductFromWishlist } = useContext(WishlistContext);
 
 
   async function getProductDetails() {
@@ -62,7 +64,7 @@ export default function Productdetails() {
 
   return <>
     {loading ?
-      <Loading/>
+      <Loading />
       :
       <>
         <div className="flex flex-col md:flex-row justify-center items-center gap-x-32 pb-10">
@@ -79,7 +81,16 @@ export default function Productdetails() {
               <span>{product.price} EGP</span>
               <span><i className="fas fa-star rating-color"></i> {product.ratingsAverage} </span>
             </div>
-            <button onClick={()=>AddToCart(product.id)} className='btn w-full'>Add to cart</button>
+            <div className="flex px-4 gap-2 ">
+              <button onClick={() => AddToCart(product.id)} className='btn w-full'>Add to cart</button>
+              {
+                wishlist?.data.join('').includes(product.id) ?
+                  <i onClick={() => DeleteProductFromWishlist(product.id)} className={`fa-solid fa-heart  flex items-center text-red-600 hover:cursor-pointer`}></i>
+                  :
+                  <i onClick={() => AddToWishlist(product.id)} className={`fa-regular fa-heart  flex items-center hover:cursor-pointer`}></i>
+
+              }
+            </div>
           </div>
         </div>
         <ProductsRelatedByCategory categoryName={product.category.name} />

@@ -17,6 +17,7 @@ export default function CartContextProvider({ children }) {
         try {
             let { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/cart', { productId }, { headers })
             setCart(data)
+            DisplayCart();
             toast.success(data.message)
 
         } catch (error) {
@@ -59,12 +60,7 @@ export default function CartContextProvider({ children }) {
             let { data } = await axios.delete(`https://ecommerce.routemisr.com/api/v1/cart/${id}`,  { headers })
             setCart(data);
             console.log(data);
-            
-
             toast.success(data.status)
-
-
-
         } catch (error) {
             console.log(error);
 

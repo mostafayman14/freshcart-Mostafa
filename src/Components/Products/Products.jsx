@@ -5,17 +5,21 @@ import { Link } from 'react-router-dom';
 import Heading from '../ui/Heading';
 import Loading from '../ui/Loading';
 import { CartContext } from '../../context/CartContext';
+import { WishlistContext } from '../../context/WishListContext';
 
 
 
 export default function Products() {
   const [getData, setgetData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [checkAddTOWishlistById, setcheckAddTOWishlistById] = useState(false);
 
 
-let {AddToCart} = useContext(CartContext);
+  let { AddToCart } = useContext(CartContext);
+  let { AddToWishlist, wishlist, DeleteProductFromWishlist } = useContext(WishlistContext);
 
 
+  // console.log(wishlist?.data.join('').includes('6428e7ecdc1175abc65ca090'));
 
   async function getProducts() {
     try {
@@ -35,9 +39,6 @@ let {AddToCart} = useContext(CartContext);
     getProducts();
 
   }, [])
-
-
-
 
   return <>
     <Heading titlePage='All Products' />
@@ -59,8 +60,15 @@ let {AddToCart} = useContext(CartContext);
                     </div>
                   </div>
                 </Link>
-                <div className="px-5 md:p-0">
-                  <button onClick={()=>AddToCart(item.id)} className='btn w-full' >Add to cart</button>
+                <div className="flex justify-evenly px-5 md:p-0 ">
+                  <button onClick={() => AddToCart(item.id)} className='btn w-full' >Add to cart</button>
+                  {
+                    wishlist?.data.join('').includes(item.id) ?
+                      <i onClick={() => DeleteProductFromWishlist(item.id)} className={`fa-solid fa-heart  flex items-center text-red-600 hover:cursor-pointer`}></i>
+                      :
+                      <i onClick={() => AddToWishlist(item.id)} className={`fa-regular fa-heart  flex items-center hover:cursor-pointer`}></i>
+
+                  }
                 </div>
               </div>
             </div>
