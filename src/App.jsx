@@ -1,6 +1,6 @@
 
 import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom'
 import Layout from './Components/Layout/Layout.jsx'
 import Home from './Components/Home/Home.jsx'
 import Cart from './Components/Cart/Cart.jsx'
@@ -29,7 +29,7 @@ import Wishlist from './Components/Wishlist/Wishlist.jsx'
 
 
 
-let routers = createBrowserRouter([{
+let routers = createHashRouter([{
   path: '', element: <Layout />, children: [
     { patk: 'register', element: <Register /> },
     { path: 'login', element: <Login /> },
